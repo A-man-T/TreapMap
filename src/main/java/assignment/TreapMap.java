@@ -380,16 +380,15 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     public String toString(){
         StringBuilder output = new StringBuilder();
         int depth = 0;
+        //populates the stringbuilder
         preOrder(root, output, depth);
-
-
-
         return output.toString();
     }
 
     private void preOrder(TreapNode node, StringBuilder output, int depth) {
         if(node==null)
             return;
+        //does the appropriate tabbing
         for(int i = 0; i<depth;i++)
             output.append("\t");
         output.append("["+node.priority+"]"+" <"+node.key+", "+node.value+">");
