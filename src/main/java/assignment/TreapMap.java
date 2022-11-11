@@ -4,7 +4,7 @@ import java.util.*;
 //i know there's a lot of reused code, that will be addressed by the final deadline.
 
 public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
-    public TreapNode root;
+    private TreapNode root;
     //numChanges is to be used in the iterator
     private int numChanges;
 
@@ -18,7 +18,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     }
 
     //node data structure where the nodes of the tree are created
-    public class TreapNode
+    private class TreapNode
     {
         K key;
         V value;
@@ -97,31 +97,6 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     //traverses through and returns the value associated with the key
     @Override
     public V lookup(K key) {
-
-        /*
-        if(key == null)
-            return null;
-        if(root==null)
-            return null;
-        TreapNode curr = root;
-        while(curr.key.compareTo(key)!=0){
-            if(curr.key.compareTo(key)>0) {
-                if (curr.left == null)
-                    return null;
-                else{
-                    curr = curr.left;
-                }
-            }
-           else {
-                if (curr.right == null)
-                    return null;
-                else{
-                    curr = curr.right;
-                }
-            }
-        }
-
-         */
         TreapNode curr = smartLookup(key);
         if(curr==null)
             return null;
@@ -195,7 +170,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
 
     }
     //traverses through and returns the parent associated with the node
-    public TreapNode parentLookup(K key) {
+    private TreapNode parentLookup(K key) {
         if(root==null)
             return null;
         TreapNode curr = root;
@@ -235,28 +210,6 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         V val = toDelete.value;
 
         removeNode(toDelete);
-        /*
-        while(toDelete.left!=null&&toDelete.right!=null){
-            if(toDelete.left.priority<toDelete.right.priority)
-                rotateLeft(toDelete);
-            else{
-                rotateRight(toDelete);
-            }
-        }
-        if(toDelete.left==null&&toDelete.right!=null)
-            rotateLeft(toDelete);
-        if(toDelete.right==null&&toDelete.left!=null)
-            rotateRight(toDelete);
-
-
-        if(root.left==null&&root.right==null)
-            root = null;
-        else if(parentLookup(key).left!=null&&parentLookup(key).left.key.compareTo(key)==0)
-            parentLookup(key).left = null;
-        else if(parentLookup(key).right!=null&&parentLookup(key).right.key.compareTo(key)==0)
-            parentLookup(key).right = null;
-
-         */
         numChanges++;
         return val;
     }
@@ -298,7 +251,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     }
 
     //inserts a node with a given priority
-    public void insertWPriority(K key, V value, int priority) {
+    private void insertWPriority(K key, V value, int priority) {
         if(key==null)
             return;
         if(value==null)
@@ -533,3 +486,55 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
 
 
  */
+
+
+//old remove
+/*
+        while(toDelete.left!=null&&toDelete.right!=null){
+            if(toDelete.left.priority<toDelete.right.priority)
+                rotateLeft(toDelete);
+            else{
+                rotateRight(toDelete);
+            }
+        }
+        if(toDelete.left==null&&toDelete.right!=null)
+            rotateLeft(toDelete);
+        if(toDelete.right==null&&toDelete.left!=null)
+            rotateRight(toDelete);
+
+
+        if(root.left==null&&root.right==null)
+            root = null;
+        else if(parentLookup(key).left!=null&&parentLookup(key).left.key.compareTo(key)==0)
+            parentLookup(key).left = null;
+        else if(parentLookup(key).right!=null&&parentLookup(key).right.key.compareTo(key)==0)
+            parentLookup(key).right = null;
+
+         */
+
+//old lookup
+
+        /*
+        if(key == null)
+            return null;
+        if(root==null)
+            return null;
+        TreapNode curr = root;
+        while(curr.key.compareTo(key)!=0){
+            if(curr.key.compareTo(key)>0) {
+                if (curr.left == null)
+                    return null;
+                else{
+                    curr = curr.left;
+                }
+            }
+           else {
+                if (curr.right == null)
+                    return null;
+                else{
+                    curr = curr.right;
+                }
+            }
+        }
+
+         */

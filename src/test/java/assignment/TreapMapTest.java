@@ -58,9 +58,10 @@ class TreapMapTest {
         for(int i=0;i<1000;i++)
             testTreap.insert(i,0);
         System.out.println(testTreap);
-        check(testTreap.root);
+        //check(testTreap.root);
     }
 
+    /*
     private void check(TreapMap.TreapNode curr) {
         System.out.println(curr.key);
        if(curr.left!=null){
@@ -74,6 +75,8 @@ class TreapMapTest {
             check(curr.right);
         }
     }
+
+     */
 
 
     @Test
@@ -101,8 +104,9 @@ class TreapMapTest {
         for(int i=0;i<10;i++)
             test.insert(i,0);
 
-        test.insertWPriority(1,11,Treap.MAX_PRIORITY);
-        check(test.root);
+        test.insert(1,100);
+        //test.insertWPriority(1,11,Treap.MAX_PRIORITY);
+        //check(test.root);
         System.out.println(test);
     }
 
