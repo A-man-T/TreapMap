@@ -13,11 +13,22 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class MethodsTreapMapTest {
 
+    @RepeatedTest(1000)
+    void testGeneric() {
+        TreapMap<String, String> test = new TreapMap();
+        test.insert("1", "1");
+        test.insert("apple", "1");
+        test.insert("LMAO", "xd");
+        test.insert("dreaming","popsmoke");
+        System.out.println(test);
+        test.remove("LMAO");
+        assertTrue(test.lookup("LMAO") ==null);
+        assertTrue(test.lookup("dreaming") =="popsmoke");
+    }
 
 
 
-
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void removeNode() {
         TreapMap<Integer,Integer> test = new TreapMap();
         test.insert(1,1);
@@ -37,7 +48,7 @@ class MethodsTreapMapTest {
 
 
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testRemove() {
         TreapMap<Integer,Integer> test = new TreapMap();
         test.insert(1,100);
@@ -59,7 +70,7 @@ class MethodsTreapMapTest {
     }
 
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testLookup() {
         TreapMap<Integer,Integer> test = new TreapMap();
         assertTrue(test.lookup(4)==null);
@@ -82,7 +93,7 @@ class MethodsTreapMapTest {
         assertTrue(test.lookup(1)==15);
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testIterator() {
         TreapMap<Integer,Integer> test = new TreapMap();
         Iterator<Integer> iter = test.iterator();

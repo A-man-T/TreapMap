@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BetoTest {
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void remove() {
         {
             {
@@ -62,7 +62,7 @@ class BetoTest {
 
 
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void split() {
         int maxKey = 100;
         for (int splitKey = -1; splitKey <= maxKey + 1; splitKey++) {
@@ -101,7 +101,7 @@ class BetoTest {
         }
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void join() {
         {
             int maxKey = 20;

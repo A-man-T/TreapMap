@@ -21,7 +21,7 @@ class TreapMapTest {
 
  */
 
-    @RepeatedTest(1)
+    @RepeatedTest(1000)
     void testSplit() {
         TreapMap<Integer,Integer> testTreap = new TreapMap();
         for(int i=0;i<10;i++)
@@ -37,7 +37,7 @@ class TreapMapTest {
     }
 
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testJoin() {
         TreapMap<Integer,Integer> testTreap = new TreapMap<>();
         for(int i=0;i<3;i++)
@@ -52,7 +52,7 @@ class TreapMapTest {
     }
 
 
-    @RepeatedTest(100)
+    @RepeatedTest(1000)
     void testTreap() {
         TreapMap<Integer,Integer> testTreap = new TreapMap();
         for(int i=0;i<1000;i++)
@@ -86,10 +86,11 @@ class TreapMapTest {
         Iterator<Integer> iter = test.iterator();
         System.out.println(test);
         test.remove(9);
+        iter = test.iterator();
         System.out.println(iter.next());
         while(iter.hasNext())
            System.out.println(iter.next());
-        //System.out.println(iter.hasNext());
+        System.out.println(iter.hasNext());
         //System.out.println(iter.next());
     }
 
