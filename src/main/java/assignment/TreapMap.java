@@ -293,6 +293,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         if(splits[1]==null)
             splits[1] = new TreapMap<>();
         numChanges++;
+        root = null;
         return splits;
     }
 
@@ -335,17 +336,16 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         int maxKeyPriority = highestNode.priority;
         TreapNode temp = new TreapNode(maxKey, maxKeyValue, MAX_PRIORITY);
         remove(maxKey);
-        //System.out.println(temp.key);
-        //System.out.println(this);
+
         temp.left = root;
         if(t instanceof TreapMap<K,V>) {
             temp.right = ((TreapMap<K, V>) t).root;
             t = null;
         }
         root = temp;
-        //System.out.println(this);
+
         removeNode(temp);
-        //System.out.println(this);
+
         insertWPriority(maxKey,maxKeyValue,maxKeyPriority);
         numChanges++;
     }
