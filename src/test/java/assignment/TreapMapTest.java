@@ -89,7 +89,7 @@ class TreapMapTest {
         System.out.println(iter.next());
         while(iter.hasNext())
            System.out.println(iter.next());
-        System.out.println(iter.hasNext());
+        //System.out.println(iter.hasNext());
         //System.out.println(iter.next());
     }
 
