@@ -353,17 +353,19 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
 
     private void removeNode(TreapNode node){
 
+        TreapNode parent = parentLookup(node.key);
+
         if(node.left==null&&node.right==null){
             if(root.left==null && root.right==null) {
                 root = null;
                 return;
             }
-            if(parentLookup(node.key).left==node){
-                parentLookup(node.key).left=null;
+            if(parent.left==node){
+                parent.left=null;
                 return;
             }
-            if(parentLookup(node.key).right==node){
-                parentLookup(node.key).right=null;
+            if(parent.right==node){
+                parent.right=null;
                 return;
             }
         }
@@ -379,7 +381,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         }
         else{
             //error
-            if(parentLookup(node.key)==null){
+            if(parent==null){
                 if(node.right!=null){
                     root = node.right;
                 }
@@ -387,23 +389,23 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
                     root = node.left;
                 }
             }
-            else if(parentLookup(node.key).right==node){
+            else if(parent.right==node){
                 if(node.right!=null){
-                    parentLookup(node.key).right = node.right;
+                    parent.right = node.right;
                     return;
                 }
                 if(node.left!=null){
-                    parentLookup(node.key).right = node.left;
+                    parent.right = node.left;
                     return;
                 }
             }
-            else if(parentLookup(node.key).left==node){
+            else if(parent.left==node){
                 if(node.right!=null){
-                    parentLookup(node.key).left = node.right;
+                    parent.left = node.right;
                     return;
                 }
                 if(node.left!=null){
-                    parentLookup(node.key).left = node.left;
+                    parent.left = node.left;
                     return;
                 }
             }
@@ -412,43 +414,6 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
 
 
     }
-
-
-
-    //removes by a node rather than a key
-/*
-    private void removeNode(TreapNode node) {
-
-        TreapNode toDelete = node;
-        while(toDelete.left!=null&&toDelete.right!=null){
-            if(toDelete.left.priority<toDelete.right.priority)
-                rotateLeft(toDelete);
-            else{
-                rotateRight(toDelete);
-            }
-        }
-        if(toDelete.left==null&&toDelete.right!=null)
-            rotateLeft(toDelete);
-        if(toDelete.right==null&&toDelete.left!=null)
-            rotateRight(toDelete);
-        //V val = toDelete.value;
-        //K key = toDelete.key;
-
-        if(root.left==null&&root.right==null)
-            root = null;
-        //else if(toDelete.left==null&&toDelete.right!=null)
-            //removeNode(node);
-        else if(parentLookup(node.key).left!=null&&parentLookup(node.key).left.key.compareTo(node.key)==0)
-            parentLookup(node.key).left = null;
-        else if(parentLookup(node.key).right!=null&&parentLookup(node.key).right.key.compareTo(node.key)==0)
-            parentLookup(node.key).right = null;
-        return;
-    }
-
-
- */
-
-
 
     public String toString(){
         StringBuilder output = new StringBuilder();
@@ -535,3 +500,36 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         throw new UnsupportedOperationException();
     }
 }
+
+//old iterative implementation
+/*
+    private void removeNode(TreapNode node) {
+
+        TreapNode toDelete = node;
+        while(toDelete.left!=null&&toDelete.right!=null){
+            if(toDelete.left.priority<toDelete.right.priority)
+                rotateLeft(toDelete);
+            else{
+                rotateRight(toDelete);
+            }
+        }
+        if(toDelete.left==null&&toDelete.right!=null)
+            rotateLeft(toDelete);
+        if(toDelete.right==null&&toDelete.left!=null)
+            rotateRight(toDelete);
+        //V val = toDelete.value;
+        //K key = toDelete.key;
+
+        if(root.left==null&&root.right==null)
+            root = null;
+        //else if(toDelete.left==null&&toDelete.right!=null)
+            //removeNode(node);
+        else if(parentLookup(node.key).left!=null&&parentLookup(node.key).left.key.compareTo(node.key)==0)
+            parentLookup(node.key).left = null;
+        else if(parentLookup(node.key).right!=null&&parentLookup(node.key).right.key.compareTo(node.key)==0)
+            parentLookup(node.key).right = null;
+        return;
+    }
+
+
+ */
