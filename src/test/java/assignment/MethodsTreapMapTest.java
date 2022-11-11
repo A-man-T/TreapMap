@@ -4,9 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -24,6 +22,14 @@ class MethodsTreapMapTest {
         test.remove("LMAO");
         assertTrue(test.lookup("LMAO") ==null);
         assertTrue(test.lookup("dreaming") =="popsmoke");
+        HashSet<String> keys = new HashSet<String>();
+        Iterator<String> loop = test.iterator();
+        while(loop.hasNext())
+            keys.add(loop.next());
+        assertTrue(keys.contains("1"));
+        assertTrue(keys.contains("apple"));
+        assertTrue(keys.contains("dreaming"));
+
     }
 
 

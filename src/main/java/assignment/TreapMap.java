@@ -1,9 +1,10 @@
 package assignment;
 import java.util.*;
 
-//i know there's a lot of reused code, that will be addressed by the final deadline.
 
 public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
+
+    //keeps track of the root which contains pointers to the rest of the tree
     private TreapNode root;
     //numChanges is to be used in the iterator
     private int numChanges;
@@ -18,8 +19,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     }
 
     //node data structure where the nodes of the tree are created
-    private class TreapNode
-    {
+    private class TreapNode{
         K key;
         V value;
         int priority;
@@ -32,6 +32,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
             this.value = value;
             this.left = this.right = null;
         }
+        //used for inserting a TreapNode with a set priority
         TreapNode(K key, V value, int priority)
         {
             this.priority = priority;
@@ -46,11 +47,10 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         TreapNode left = pivot.left;
         TreapNode swap = pivot.left.right;
 
-
         left.right = pivot;
         pivot.left = swap;
 
-
+        //This block of code changes the parent to point at the new head of the rotation
         TreapNode parent = parentLookup(pivot.key);
 
         if(parent == null)
@@ -75,8 +75,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         right.left = pivot;
         pivot.right = swap;
 
+        //This block of code changes the parent to point at the new head of the rotation
         TreapNode parent = parentLookup(pivot.key);
-
 
         if(parent==null)
             this.root = right;
@@ -97,6 +97,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     //traverses through and returns the value associated with the key
     @Override
     public V lookup(K key) {
+        //smartLookup returns the node associated with a key
         TreapNode curr = smartLookup(key);
         if(curr==null)
             return null;
@@ -122,19 +123,25 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         numChanges++;
     }
 
-    //recursive method to actually insert
+    //recursive method to do the Insertion, very similar to a BST approach
     private TreapNode recursiveInsert(TreapNode curr,TreapNode insert){
+
+        //Case 1: We have found the spot the node should be inserted
         if(curr==null) {
             curr = insert;
             if(root==null)
                 root = insert;
             return insert;
         }
+        //Case 2: We are at a node with a key too large so we move left,
+        //once the node is inserted we rotate it through the recursive stack to maintain heap properties
         if(curr.key.compareTo(insert.key)>0){
             curr.left = recursiveInsert(curr.left, insert);
             if(curr.left!=null && curr.left.priority> curr.priority)
                 curr = rotateRight(curr);
         }
+        //Case 3: We are at a node with a key too small so we move right
+        //once the node is inserted we rotate it through the recursive stack to maintain heap properties
         else{
             curr.right = recursiveInsert(curr.right, insert);
             if(curr.right!=null && curr.right.priority> curr.priority)
@@ -143,7 +150,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         return curr;
     }
 
-    //traverses through and returns the nodes associated with the key
+    //traverses through the Treap and returns the node associated with the key
     private TreapNode smartLookup(K key) {
         if(root==null)
             return null;
@@ -169,7 +176,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         return curr;
 
     }
-    //traverses through and returns the parent associated with the node
+
+    //traverses through and returns the parent associated with the key
     private TreapNode parentLookup(K key) {
         if(root==null)
             return null;
@@ -214,12 +222,11 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         return val;
     }
 
-    //splits as described
+    //splits the treap into two treaps such that the first treap only contains keys
+    // less than the parameter KEY and the other contains the rest
     @Override
     public Treap[] split(K key) {
-
-
-
+        //input validation
         TreapMap<K,V>[] splits= new TreapMap[2];
         if(key==null)
             return splits;
@@ -227,6 +234,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
             return splits;
 
         V value;
+        //if the key is in the tree, move it to the top and take the left and right subtrees
         if(smartLookup(key)!=null){
             value = lookup(key);
             remove(key);
@@ -235,6 +243,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
             root.left = null;
             splits[1] = new TreapMap<>(root);
         }
+        //if the key isn't in the tree, put it at the top then take the left and right subtrees
         else {
             insertWPriority(key, root.value, MAX_PRIORITY);
             splits[0] = new TreapMap<>(root.left);
@@ -266,10 +275,10 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         numChanges++;
     }
 
-    //join as described
+    //join as described: Two treaps, T1 and T2, with all keys in T1 being smaller
+    //than all keys in T2, are merged to form a new treap T
     @Override
     public void join(Treap<K,V> t) {
-
         if(!(t instanceof TreapMap))
             return;
         if(t==null)
@@ -280,16 +289,16 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
                 return;
             }
 
+        //find the node with the largest key in this treap, store its values and delete it
         TreapNode highestNode = root;
         while(highestNode.right!=null)
             highestNode = highestNode.right;
-
         K maxKey = highestNode.key;
-        V maxKeyValue = highestNode.value; ;
+        V maxKeyValue = highestNode.value;
+        remove(maxKey);
+        //make a new TreapNode with max priority and set its right and left pointers to the other two treaps
         int maxKeyPriority = highestNode.priority;
         TreapNode temp = new TreapNode(maxKey, maxKeyValue, MAX_PRIORITY);
-        remove(maxKey);
-
         temp.left = root;
         if(t instanceof TreapMap) {
             temp.right = ((TreapMap) t).root;
@@ -297,18 +306,19 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         }
         root = temp;
 
+        //remove the temporary node and reinsert the original one
         removeNode(temp);
-
         insertWPriority(maxKey,maxKeyValue,maxKeyPriority);
         numChanges++;
     }
 
-
+//recursively removes a node from the treap
     private void removeNode(TreapNode node){
 
         TreapNode parent = parentLookup(node.key);
-
+        //Case 1: the node is a leaf, if so the pointer of the parent is changed
         if(node.left==null&&node.right==null){
+            //checks if it needs to change the root
             if(root.left==null && root.right==null) {
                 root = null;
                 return;
@@ -322,7 +332,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
                 return;
             }
         }
-
+        //case 2: the node has two children and needs to be rotated down
         else if(node.left != null && node.right != null){
             if (node.left.priority < node.right.priority)
                rotateLeft(node);
@@ -332,8 +342,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
             removeNode(node);
             return;
         }
+        //case 3: the node has 1 child and the pointer of the parent can simply be changed
         else{
-            //error
             if(parent==null){
                 if(node.right!=null){
                     root = node.right;
@@ -363,11 +373,9 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
                 }
             }
         }
-
-
-
     }
 
+    //pre-order output of the treap
     public String toString(){
         StringBuilder output = new StringBuilder();
         int depth = 0;
@@ -392,10 +400,11 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        //consider numchanges and throw concurrent modification exception
-        // do i need to implement remove or the other one?
         return new TreapMapIterator<K>(root,numChanges);
     }
+
+    //Iterator class, initialized with the number of changes variable
+    //Put the nodes into a queue and prepopulates it through an in-order traversal
     class TreapMapIterator<K> implements Iterator<K> {
         TreapNode root;
         int changesBeforeCreation;
@@ -415,7 +424,7 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
             inOrder(node.right,queue);
         }
 
-
+        //Number of changes is used here to check if exceptions should be thrown
         @Override
         public boolean hasNext() throws ConcurrentModificationException {
             if(numChanges!=changesBeforeCreation)
