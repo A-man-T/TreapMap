@@ -85,10 +85,11 @@ class TreapMapTest {
 
         Iterator<Integer> iter = test.iterator();
         System.out.println(test);
-        test.remove(10);
+        test.remove(9);
         System.out.println(iter.next());
         while(iter.hasNext())
            System.out.println(iter.next());
+        System.out.println(iter.hasNext());
         //System.out.println(iter.next());
     }
 
