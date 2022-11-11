@@ -317,12 +317,12 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     @Override
     public void join(Treap<K,V> t) {
 
-        if(!(t instanceof TreapMap<K,V>))
+        if(!(t instanceof TreapMap))
             return;
         if(t==null)
             return;
         if(root==null)
-            if(t instanceof TreapMap<K,V>) {
+            if(t instanceof TreapMap) {
                 root = ((TreapMap<K, V>) t).root;
                 return;
             }
@@ -338,8 +338,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         remove(maxKey);
 
         temp.left = root;
-        if(t instanceof TreapMap<K,V>) {
-            temp.right = ((TreapMap<K, V>) t).root;
+        if(t instanceof TreapMap) {
+            temp.right = ((TreapMap) t).root;
             t = null;
         }
         root = temp;
