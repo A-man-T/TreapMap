@@ -9,7 +9,6 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
     //numChanges is to be used in the iterator
     private int numChanges;
 
-
     TreapMap(){
         numChanges = 0;
     }
@@ -42,7 +41,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         }
     }
 
-    //this method rotates the tree right around a pivot, and if the pivot is the root it changes the root to point to the correct code
+    //this method rotates the tree right around a pivot,
+    // and if the pivot is the root it changes the root to point to the correct code
     private TreapNode rotateRight(TreapNode pivot){
         TreapNode left = pivot.left;
         TreapNode swap = pivot.left.right;
@@ -66,7 +66,8 @@ public class TreapMap<K extends Comparable<K>, V> implements Treap<K, V> {
         return left;
     }
 
-    //this method rotates the tree left around a pivot, and if the pivot is the root it changes the root to point to the correct code
+    //this method rotates the tree left around a pivot,
+    // and if the pivot is the root it changes the root to point to the correct code
     private TreapNode rotateLeft(TreapNode pivot){
         TreapNode right = pivot.right;
         TreapNode swap = pivot.right.left;
